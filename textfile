@@ -1,0 +1,31 @@
+3)
+a)
+Processes may be in one of these states
+D    uninterruptible sleep (usually IO)
+R    running or runnable (on run queue)
+S    interruptible sleep (waiting for an event to complete)
+T    stopped, either by a job control signal or because it is being traced
+W    paging (not valid since the 2.6.xx kernel)
+X    dead (should never be seen)
+Z    defunct ("zombie") process, terminated but not reaped by its parent
+
+b)
+child1 is in running(R+) state
+child2 is in interruptible sleep(S+) state
+child3 is in zombie state
+
+c)To get our process in traced or stopped state we can press (ctrl+Z) in terminal
+
+
+5) I achieved a significant difference in the load average by creating parallel child processes using fork() in the for loop which will utilize 
+significant percentage of cpu
+
+
+6) 
+a) signal number -12
+b)corresponding interrupt- SIGSYS    
+Description-Bad argument to routine
+
+c) /proc/interrupts
+I waited for some time and compared the results
+Also references used- http://man7.org/linux/man-pages/man7/signal.7.html

@@ -1,0 +1,3 @@
+sequential ls ::: run test/test2.run ::: pwd
+sequential cd test ::: pwd ::: ls
+
