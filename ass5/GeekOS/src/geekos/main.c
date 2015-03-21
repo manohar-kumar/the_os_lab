@@ -81,6 +81,40 @@ static void Spawn_Init_Process(void);
  */
 
 extern void checkPaging(void);
+static void Read_Password(){
+
+	
+	char buf[1024];
+	struct File* pfile;
+	Open("/c/Password.txt", 0, &pfile);
+	int r= Read(pfile, buf, 1024);
+	
+	while (true){
+		Print("%s\n","Enter new password");
+		int i=0;
+		char inp[80];
+		while(true){
+		
+			Keycode s=(Keycode) Wait_For_Key();
+			if((s& KEY_SPECIAL_FLAG) || (s& KEY_RELEASE_FLAG))
+				continue;
+			if (s=='\r'){
+				inp[i++]='\n';
+				inp[i++]='\0';
+				Put_Char('\n');
+				break;
+			}
+			else {
+				inp[i++]=s;
+				Put_Char('*');
+			}
+			
+		}
+	if (!strcmp(buf,inp)) return;	
+	else continue;
+}
+	
+}
 
 
 void Hardware_Shutdown() {
@@ -142,7 +176,9 @@ void Main(struct Boot_Info *bootInfo) {
     /* End sound init */
 
     Mount_Root_Filesystem();
-
+    struct Kernel_Thread *Proc;
+    Proc=Start_Kernel_Thread(Read_Password,0,PRIORITY_NORMAL,false,"password");
+    int exitCode=Join(Proc);
     TODO_P(PROJECT_VIRTUAL_MEMORY_A, "initialize page file.");
 
     Set_Current_Attr(ATTRIB(BLACK, GREEN | BRIGHT));

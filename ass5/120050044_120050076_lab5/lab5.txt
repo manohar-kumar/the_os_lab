@@ -1,0 +1,54 @@
+Q1. 
+	The Source code (ex1.c)is to be kept in "/opt/GeekOS/src/usr/" folder.
+	
+	Whenever you add a new user program then you have to build entire OS.
+	To Build goto "/opt/GeekOS/build/" directory and execure "make".
+	To execute the program run "geek" in the terminal from "/opt/GeekOS".
+	Directly type "ex1.exe" in the console which apears to execute the code "ex1.c".
+	
+	All the header file is in "/opt/GeekOS/include/libc" can be included in the usern space.
+	
+Q2.
+
+a)	The file syscall.h is there to define different kinds of System calls and their nunbers.
+	The file syscall.c contains the implementation of system call handlers.
+	The file conio.h contains definitions of different IO funtions such as Get_Key() which can be used in the user programs for input,output.
+	The file conio.c contains the actions for the functions defined in conio.h.
+	
+	eg: for the system call Get_Key() 
+		In syscall.h :SYS_GETKEY is present in enum as the syscall num .
+		In syscall.c : Action corresponding to SYS_GETKEY is defined (static int Sys_GetKey(struct Interrupt_State *state)).
+		In conio.h :function Get_Key() is declared.
+		In conio.c :Get_Key() is defined using the function DEF_SYSCALL which was defined in syscall.h to define syscalls.
+	 
+b) 	To add a syscall the changes to be done are :
+	In syscall.h :
+		Corresponding syscall num is to be added to the enums.
+	In syscall.c : 
+		Write the action for the syscall as a static function with respective name
+		Add the name of the syscall handler to the array "g_syscallTable[]" containing syscall handlers
+	In conio.h :
+		If the syscall added has something to do with input/output or we want to add it here then add a function definition for that syscall.
+	In conio.c :
+		define the action for the funtion using DEF_SYSCALL(name,num,retType,params,argDefs,regs) defined in syscall.h
+		as the action for the syscall is already writen in syscall.c.
+		
+Q3. 
+	while defining a syscall using DEF_SYSCALL the last argument regs:
+		if it is given as SYSCALL_REGS_0 => 0 arguments
+		is SYSCALL_REGS_1 => 1 argument 
+		is SYSCALL_REGS_2 => 2 arguments... and so on. (only till SYSCALL_REGS_5 because only they are defined)
+		
+Q4.
+	 Kernel_Thread struct declared in kthread.h  has a atribute called pid which is the process Id of the process
+	 In systcall.c we can see a variable CURRENT_THREAD. CURRENT_THREAD is a pointer to Kernel_Thread
+	 so, CURRENT_THREAD->pid gives the pid of the process.
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+
+	
